@@ -4,13 +4,14 @@ import random
 def main():
     header()
     random_number = str(generate_random_num(4))
+    print(random_number)
     turns = 0
     while True:
         players_number = str(input('Enter a 4 digit number:'))
         if players_guess_check(players_number):
             print(f'Number must have 4 digits.')
-        bulls = evaluate_bulls(players_number, random_number)
-        cows = evaluate_cows(players_number, random_number) - bulls
+            continue
+        bulls, cows = evaluate_bulls_and_cows(players_number, random_number)
         show_current_state(bulls, cows)
         turns += 1
         if bulls == 4:
@@ -19,7 +20,7 @@ def main():
 
 
 def header():
-    print(f"Hi there! I've generated a random 4 digit number for you." )
+    print(f"Hi there! I've generated a random 4 digit number for you.")
     print(f"Let's play a bulls and cows game.")
 
 
@@ -38,22 +39,18 @@ def players_guess_check(guess):
     else:
         return False
 
-def evaluate_bulls(str1, str2):
+
+def evaluate_bulls_and_cows(str1, str2):
     bulls = 0
+    cows = 0
     indx = 0
     for dig in str1:
         if dig == str2[indx]:
             bulls += 1
-        indx += 1
-    return bulls
-
-
-def evaluate_cows(str1, str2):
-    cows = 0
-    for dig in str1:
-        if dig in str2:
+        elif dig in str2:
             cows += 1
-    return cows
+        indx += 1
+    return bulls, cows
 
 
 def show_current_state(bulls, cows):
@@ -64,7 +61,7 @@ def final_result(turns):
     print("Correct, you've guessed the right number in {} guesses!".format(turns))
     if turns in range(4):
         print("That's amazing!")
-    elif turns in range(4,7):
+    elif turns in range(4, 7):
         print("That's not bad, try again!")
     else:
         print("That's not very good, try again!")
