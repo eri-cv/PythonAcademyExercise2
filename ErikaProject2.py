@@ -4,7 +4,6 @@ import random
 def main():
     header()
     random_number = str(generate_random_num(4))
-    print(random_number)
     turns = 0
     while True:
         players_number = str(input('Enter a 4 digit number:'))
